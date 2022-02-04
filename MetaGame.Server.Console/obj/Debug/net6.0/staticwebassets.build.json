@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "d9+P/3O5+NMQF2rKpgy1d/TWH6J7SWgONGbbcnIi2hQ=",
+  "Source": "MetaGame.Server.Console",
+  "BasePath": "_content/MetaGame.Server.Console",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

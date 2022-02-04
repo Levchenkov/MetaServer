@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "MetaGame.Client.Web/1.0.0": {
+        "runtime": {
+          "MetaGame.Client.Web.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MetaGame.Client.Web/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
