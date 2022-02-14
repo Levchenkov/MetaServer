@@ -4,13 +4,6 @@ namespace MetaGame.Server.Console.Services;
 
 public class PlayerService : IPlayerService
 {
-    private readonly Dictionary<Guid, Player> _players;
-
-    public PlayerService()
-    {
-        _players = new Dictionary<Guid, Player>();
-    }
-
     public bool DoesPlayerExist(Guid playerId) => true;
     
 
@@ -18,6 +11,9 @@ public class PlayerService : IPlayerService
 
     public void PayPrice(Guid playerId, int price)
     {
-        
+    }
+
+    public void ApplyContent(IContent[] content)
+    {
     }
 }

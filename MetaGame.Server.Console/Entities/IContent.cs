@@ -2,4 +2,5 @@
 
 public interface IContent
 {
+    string Id { get; }
 }

@@ -12,6 +12,6 @@ public class MetaGameController : ControllerBase
 
     public MetaGameController() => _shopService = new ShopService();
 
-    [HttpPost]
-    public IProduct BuyProduct(string productId) => _shopService.BuyProduct(User.GetId(), productId);
+    [HttpPost(template:"BuyProduct/{productId}")]
+    public IProduct BuyProduct([FromRoute]string productId) => _shopService.BuyProduct(User.GetId(), productId);
 }

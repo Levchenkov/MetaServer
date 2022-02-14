@@ -5,7 +5,7 @@ namespace MetaGame.Server.Console.Services;
 
 public class ShopService : IShopService
 {
-    private readonly ShopConfiguration _shopConfiguration;
+    private readonly IShopConfiguration _shopConfiguration;
     private readonly IPlayerService _playerService;
 
     public ShopService()
@@ -29,7 +29,11 @@ public class ShopService : IShopService
         }
         
         _playerService.PayPrice(playerId, price);
+
+        IContent[] content = new[] { new Brawler("Spike") };
+
+        _playerService.ApplyContent(content);
         
-        return new Box(productId, new[] { new Brawler("Spike") });
+        return new Box(productId, content);
     } 
 }
