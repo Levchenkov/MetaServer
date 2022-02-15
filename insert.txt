@@ -1,0 +1,188 @@
+/////////////launch settings
+
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:59078",
+      "sslPort": 44389
+    }
+  },
+  "profiles": {
+    "MetaGame.Server.Console": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7269;http://localhost:5269",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
+
+
+///////////////Program.cs
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:7225");
+        });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
+/////////////////////////////////
+
+public interface IProduct
+{
+    public string Id { get; }
+    
+    public IContent[] Content { get; }
+}
+
+public record Box(string Id, IContent[] Content) : IProduct;
+
+public interface IContent
+{
+    string Id { get; }
+}
+
+public record Brawler(string Id) : IContent;
+
+public interface IShopService
+{
+    IProduct BuyProduct(Guid playerId, string productId);
+}
+
+public class ShopService : IShopService
+{
+    private readonly IShopConfiguration _shopConfiguration;
+    private readonly IPlayerService _playerService;
+
+    public ShopService()
+    {
+        _shopConfiguration = new ShopConfiguration();
+        _playerService = new PlayerService();
+    }
+
+    public IProduct BuyProduct(Guid playerId, string productId)
+    {
+        if (!_playerService.DoesPlayerExist(playerId))
+        {
+            throw new Exception("Player doesn't exist.");
+        }
+
+        var price = _shopConfiguration.GetPrice(productId);
+
+        if (!_playerService.CanPlayerPayPrice(playerId, price))
+        {
+            throw new Exception("Not enough resources.");
+        }
+        
+        _playerService.PayPrice(playerId, price);
+
+        IContent[] content = new[] { new Brawler("Spike") };
+
+        _playerService.ApplyContent(content);
+        
+        return new Box(productId, content);
+    } 
+}
+
+public interface IPlayerService
+{
+    bool DoesPlayerExist(Guid playerId);
+    
+    bool CanPlayerPayPrice(Guid playerId, int price);
+
+    void PayPrice(Guid playerId, int price);
+
+    void ApplyContent(IContent[] content);
+}
+
+public class PlayerService : IPlayerService
+{
+    public bool DoesPlayerExist(Guid playerId) => true;
+    
+
+    public bool CanPlayerPayPrice(Guid playerId, int price) => true;
+
+    public void PayPrice(Guid playerId, int price)
+    {
+    }
+
+    public void ApplyContent(IContent[] content)
+    {
+    }
+}
+
+public interface IShopConfiguration
+{
+    int GetPrice(string productId);
+}
+
+public class ShopConfiguration : IShopConfiguration
+{
+    public int GetPrice(string productId) => 42;
+}
+
+public static class Extensions
+{
+    public static Guid GetId(this ClaimsPrincipal user) => Guid.NewGuid();
+}
+
+
+[ApiController]
+[Route("[controller]")]
+public class MetaGameController : ControllerBase
+{
+    private readonly IShopService _shopService;
+
+    public MetaGameController() => _shopService = new ShopService();
+
+    [HttpPost(template:"BuyProduct/{productId}")]
+    public IProduct BuyProduct([FromRoute]string productId) => _shopService.BuyProduct(User.GetId(), productId);
+}
