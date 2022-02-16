@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaGame.Client.Web", "MetaGame.Client.Web\MetaGame.Client.Web.csproj", "{3C66B0D3-59F8-4CAF-9278-5AA1768FD188}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaGame.Server.Console", "MetaGame.Server.Console\MetaGame.Server.Console.csproj", "{7C6650BF-322D-4FCD-AFC4-CB8951B1E3D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3C66B0D3-59F8-4CAF-9278-5AA1768FD188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C66B0D3-59F8-4CAF-9278-5AA1768FD188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C66B0D3-59F8-4CAF-9278-5AA1768FD188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C6650BF-322D-4FCD-AFC4-CB8951B1E3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C6650BF-322D-4FCD-AFC4-CB8951B1E3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C6650BF-322D-4FCD-AFC4-CB8951B1E3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C6650BF-322D-4FCD-AFC4-CB8951B1E3D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
